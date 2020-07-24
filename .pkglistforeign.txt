@@ -1,0 +1,14 @@
+betterlockscreen
+font-manager
+fzwal-git
+google-chrome
+plex-media-server
+polybar
+postgresql-jdbc
+pulse-secure
+pycharm-professional
+rofi-bluetooth-git
+rofi-greenclip
+rofi-wifi-menu-git
+snapd
+yay

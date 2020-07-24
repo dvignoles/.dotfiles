@@ -1,0 +1,196 @@
+[colors]
+background = ${xrdb:color0:#282828}
+background-alt = ${xrdb:color8:#1d2021}
+foreground = ${xrdb:color7:#ebdbb2}
+foreground-alt = ${xrdb:color15:#a89984}
+primary = ${xrdb:color6:#fe8019}
+secondary = ${xrdb:color1:#b16286}
+alert = ${xrdb:color5:#fb4934}
+
+[bar/default]
+width = 100%
+height = 35
+fixed-center = false
+background = ${colors.background}
+foreground = ${colors.primary}
+line-size = 3
+line-color = ${colors.primary}
+border-color = #00000000
+padding-left = 3
+padding-right = 3
+module-margin-left = 0
+module-margin-right = 2
+font-0 = JetBrains Mono Nerd Font:pixelsize=9
+modules-left = bspwm xwindow
+modules-center = 
+modules-right =  backlight pulseaudio battery1 battery0 bluetooth updates-pacman-aurhelper work-vpn-status wireless-network 
+tray-position = right
+tray-padding = 4
+wm-restack = bspwm
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/wireless-network]
+type = internal/network
+interface=wlp3s0
+interval = 5.0
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+label-connected = %local_ip%
+label-disconnected = 睊
+
+[module/work-vpn-status]
+type = custom/script
+exec = ~/scripts/bin/asrc_status
+
+[module/updates-pacman-aurhelper]
+type = custom/script
+exec = ~/scripts/bin/updates-pacman-aurhelper.sh
+interval = 600
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+mount-0 = /
+;mount-1 = /mnt/stash
+format-mounted = <label-mounted>
+format-unmounted = <label-unmounted>
+label-mounted = %free%
+label-unmounted = not mounted
+format-mounted-prefix = "/: "
+;format-mounted-prefix-foreground = ${colors.alert}
+
+[module/bspwm]
+type = internal/bspwm
+format = <label-state>
+label-focused = %index%
+label-focused-background = ${colors.background}
+label-focused-foreground= ${colors.secondary}
+label-focused-underline = ${colors.primary}
+label-focused-padding = 2
+label-occupied = %index%
+label-occupied-padding = 2
+label-urgent = %index%!
+label-urgent-background = ${colors.foreground-alt}
+label-urgent-padding = 2
+label-empty = %index%
+;label-occupied-background = ${colors.background-alt}
+label-occupied-underline= ${colors.primary}
+label-empty-padding = 2
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format = <ramp>  <label> 
+label = %percentage%% 
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+;ramp-foreground = ${colors.alert}
+
+[module/wlan]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+format-connected = <label-connected>
+label-connected = %essid%
+format-disconnected = <label-disconnected>
+label-disconnected = 睊 %ifname% disconnected
+format-connected-prefix = "直  "
+format-connected-prefix-foreground = ${colors.alert}
+
+[module/bluetooth]
+type = custom/script
+exec = rofi-bluetooth --status
+interval = 1
+click-left = rofi-bluetooth &
+
+[module/date]
+type = internal/date
+interval = 1
+date = " %d.%m.%Y"
+date-alt = " %a %d.%m.%Y"
+time = %H:%M
+time-alt = %H:%M:%S
+format-prefix = " "
+format-prefix-foreground = ${colors.alert}
+label = %date% - %time%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+;format-volume = <label-volume> <bar-volume>
+format-volume = <ramp-volume>  <label-volume> 
+label-volume = %percentage%%
+label-volume-foreground = ${root.foreground}
+label-muted =    muted
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+;ramp-volume-foreground = ${colors.alert}
+
+
+[module/battery1]
+type = internal/battery
+battery = BAT1
+adapter = ACAD
+full-at = 98
+format-charging = <animation-charging> <label-charging>
+label-charging = %percentage%%
+format-discharging = <ramp-capacity> <label-discharging>
+label_discharging = %percentage%%
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+ramp-capacity-10 = 
+ramp-capacity-11 = 
+animation-charging-0 = " "
+animation-charging-1 = " "
+animation-charging-2 = " "
+;ramp-capacity-foreground = ${colors.alert}
+;animation-charging-foreground = ${colors.alert}
+
+
+[module/battery0]
+type = internal/battery
+battery = BAT0
+adapter = ACAD
+full-at = 98
+format-charging = <animation-charging> <label-charging>
+label-charging = %percentage%%
+format-discharging = <ramp-capacity> <label-discharging>
+label_discharging = %percentage%%
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+ramp-capacity-10 = 
+ramp-capacity-11 = 
+animation-charging-0 = " "
+animation-charging-1 = " "
+animation-charging-2 = " "
+;ramp-capacity-foreground = ${colors.alert}
+;animation-charging-foreground = ${colors.alert}
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 5
+margin-bottom = 0

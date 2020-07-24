@@ -1,0 +1,166 @@
+#
+# bspwm hotkeys
+#
+
+# quit/restart bspwm
+super + ctrl + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {_,shift + }q
+	bspc node -{c,k}
+
+#
+# state/flags
+#
+
+# toggle monocole layout
+super + m
+	bspc desktop -l next
+
+# NOTE the presence of the tilde ~.  If current state matches the given
+# state, then the argument is interpreted as the last state.
+# toggle tiled, psuedo_tiled_floating_fullscreen,floating,fullscreen
+super + {t,shift + space,space,shift + m}
+	bspc node -t '~{tiled,pseudo_tiled,floating,fullscreen}'
+
+# set the node {marked,locked,sticky,private} 
+super + ctrl + {m,x,s,p}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the next/previous node in the current desktop
+super + {_,shift + }Tab
+	bspc node -f {next,prev}.local
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# switch to last active {desktop,node}. 
+{super,alt} + grave
+	bspc {desktop,node} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# flip windows vertical/horizontal
+super + {_,shift +}f
+	bspc node @/ -F {vertical,horizontal} 
+
+# Rotate all windows {counter-}clockwise by 90 degrees.
+super + {_,shift + }r
+	bspc node @/ --rotate {90,-90}
+
+# circulate nodes forward/backward
+super + {_,shift + }g
+    bspc node @/ -C {forward,backward}
+
+# swap current node with biggest/smallest
+super + {_,shift + }s 
+    bspc node -s {biggest.local,smallest.local}
+
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# resize focused window
+super + alt + {h,j,k,l}
+    ~/scripts/bin/bspwm_resize {left,down,up,right}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# adjust gaps dynamically
+super + alt + bracket{left,right}
+	bspc config -d focused window_gap "$(($(bspc config -d focused window_gap) {-,+} 5 ))"
+
+#
+# Continuous input modes
+#
+
+# resize mode (press esc to exit)
+super + c : {h,j,k,l}
+	~/scripts/bin/bspwm_resize {left,down,up,right}
+
+# gaps dynamic mode (press esc to exit)
+super + c : bracket{left,right}
+	bspc config -d focused window_gap "$(($(bspc config -d focused window_gap) {-,+} 5 ))"
+
+# Move floating windows with the arrow keys
+super + c : {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+#
+# Experimental
+#
+
+# https://www.reddit.com/r/bspwm/comments/3xnwdf/i3_like_scratch_for_any_window_possible/cy6i585/
+# Move focused window to scratchpad
+super + shift + w
+    id=$(bspc query -N -n "focused");\
+    if [ -n "$id" ];then \
+        xprop -id $id -f _SCRATCH 32ii -set _SCRATCH $(date +%s,%N);\
+        bspc node -t "floating";\
+        xdotool windowunmap $id;\
+    fi
+
+# Toggle/Cycle Scratchpad Windows
+super + w
+    i=$(bspc query -N -n "focused.floating");\
+    if [ -n "$i" ];then \
+        xprop -id $i -f _SCRATCH 32ii -set _SCRATCH $(date +%s,%N);\
+        xdotool windowunmap $i;\
+    else;\
+        i=$(for w in $(xwininfo -root -children | grep -e "^\s*0x[0-9a-f]\+" -o);do \
+            t=$(xprop -id $w _SCRATCH | grep ' = \(.*\)');\
+            if [ -n "$t" ];then \
+                echo $t $w;\
+            fi;\
+        done|sort -n|head -n1|cut -d" " -f 5);\
+        if [ -n "$i" ];then \
+            xprop -id $i -remove _SCRATCH;\
+            bspc rule -a \* state=floating center=on --one-shot;\
+            xdotool windowmap $i;\
+            bspc node -f $i;\
+        fi;\
+    fi

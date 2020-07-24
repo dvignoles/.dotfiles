@@ -1,0 +1,114 @@
+
+## general
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# terminal emulator
+super + Return
+    termite
+
+# lockscreen
+super + alt + ctrl + l
+    betterlockscreen -l dim -t "All ye who enter abandon hope"
+
+## rofi
+
+# show sxhkd bspwm keybinds
+super + semicolon 
+    /home/dan/scripts/bin/sxhkd_rofi_popup
+
+# launch .desktop program
+super + d
+	rofi -modi drun -show drun
+
+# launch any program
+super + shift + d
+	rofi -modi run  -show run
+
+# power menu
+super + p
+	rofi -show p -modi p:~/scripts/bin/rofi-power-menu -font "RobotMono Nerd Font 16" -width 20 -lines 6
+
+# bluetooth (rofi-bluetooth aur)
+super + b
+	rofi-bluetooth
+
+# greenclip clipboard manager
+super + v
+	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
+# programs
+super + {_,shift + }n
+	{rofi-wifi-menu &,nm-connection-editor &}
+
+## broken keyboard binds / media controls
+
+# brightness up
+XF86MonBrightnessUp
+	light -A 10
+
+# brightness down
+XF86MonBrightnessDown
+	light -U 10
+
+# volume up
+XF86AudioRaiseVolume
+    pactl set-sink-volume 0 +10%
+
+# volume down
+XF86AudioLowerVolume
+    pactl set-sink-volume 0 -10%
+
+# mute toggle
+XF86AudioMute
+    pactl set-sink-mute 0 toggle 
+
+# mic mute toggle
+XF86AudioMicMute 
+    pactl set-source-mute 1 toggle
+
+
+#TODO
+# Pulse Audio controls
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Sreen brightness controls
+#bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+#bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+# WLAN control
+#bindsym XF86WLAN exec ncmli radio wifi off
+
+#settings button
+#bindsym XF86Tools exec --no-startup-id cinnamon-settings
+
+#search button
+#bindsym XF86Search
+
+#three squares
+#bindsym XF86LaunchA
+
+#6 squares
+#bindsym XF86Explorer exec nemo
+
+#mic mute (not working)
+#bindsym XF86AudioMicMute exec --no-startup-id amixer set Capture toggle
+
+# screenshot
+Print
+	scrot -z '/home/dan/Pictures/screenshots/%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'xclip -selection clipboard -target image/png -i $f' # && notify-send -i gnome-screenshot "Window view screenshot" "Saved image to Desktop"
+
+# sleep is for letting giblib load when using --select -s
+# freeze screen is necessary due to compositor weirdness  when using scrot -s
+# screenshot select
+shift + Print
+	sleep 0.2; scrot -s --freeze -z '/home/dan/Pictures/screenshots/%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'xclip -selection clipboard -target image/png -i $f'
+
+# screenshot focused window
+alt + Print
+	scrot --focused -z '/home/dan/Pictures/screenshots/%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'xclip -selection clipboard -target image/png -i $f'
+

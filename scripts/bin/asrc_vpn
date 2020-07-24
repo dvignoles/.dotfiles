@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source $HOME/.pulse_credentials
+status=$(asrc_status)
+
+if [[ "$1" == "-k" || "$1" == "-K" ]]; then
+	pulsesvc -K
+	echo "vpn down"
+elif [[ "$status" == *"on"* ]]; then
+	echo "vpn already on"
+elif [[ "$status" == *"off"* ]]; then
+	pulsesvc -h $pulse_host -u $pulse_user -p $pulse_password -realm "$pulse_realm" -Url $pulse_url & 
+else	
+    echo "unexpected output of asrc_status"
+fi
