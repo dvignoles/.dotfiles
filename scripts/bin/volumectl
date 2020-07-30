@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# controls currently active sink
+# behaves as expected when using bluetooth audio
+
+if [[ "$1" == "up" ]]; then
+    pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') +10%
+elif [[ "$1" == "down" ]]; then
+    pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') -10%
+elif [[ "$1" == "mute" ]]; then
+    pactl set-sink-mute $(pacmd list-sinks |awk '/* index:/{print $3}') toggle
+fi
