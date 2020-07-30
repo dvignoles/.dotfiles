@@ -47,23 +47,23 @@ super + {_,shift + }n
 
 # brightness up
 XF86MonBrightnessUp
-	light -A 10
+	light -A 5
 
 # brightness down
 XF86MonBrightnessDown
-	light -U 10
+	light -U 5 
 
-# volume up
+# volume up for active sink
 XF86AudioRaiseVolume
-    pactl set-sink-volume 0 +10%
+    /home/dan/scripts/bin/volumectl up
 
-# volume down
+# volume down for active sink
 XF86AudioLowerVolume
-    pactl set-sink-volume 0 -10%
+    /home/dan/scripts/bin/volumectl down
 
-# mute toggle
+# mute toggle for active sink
 XF86AudioMute
-    pactl set-sink-mute 0 toggle 
+    /home/dan/scripts/bin/volumectl mute
 
 # mic mute toggle
 XF86AudioMicMute 
@@ -75,7 +75,6 @@ XF86AudioMicMute
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 #bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-
 # Sreen brightness controls
 #bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 #bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness

@@ -1,0 +1,192 @@
+#
+# wm independent hotkeys
+#
+
+# show sxhkd keybinds
+super + h
+    /home/dan/scripts/bin/sxhkd_rofi_popup
+    
+# terminal emulator
+super + Return
+    termite
+
+# launch .desktop program
+super + d
+	rofi -modi drun -show drun
+
+# launch any program
+super + shift + d
+	rofi -modi run  -show run
+
+# power menu
+super + p
+	rofi -show p -modi p:~/scripts/bin/rofi-power-menu -font "RobotMono Nerd Font 16" -width 20 -lines 6
+
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#
+# bspwm hotkeys
+#
+
+# quit/restart bspwm
+super + ctrl + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {_,shift + }q
+	bspc node -{c,k}
+
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest node in current desktop
+super + g
+	bspc node -s biggest.local
+
+#
+# state/flags
+#
+
+# Toggle monocle layout (maximise focused node).  If you use `-l
+# monocle` you lose the toggle functionality.
+# toggle monocole layout
+super + m
+	bspc desktop -l next
+
+# Toggle tiled, pseudo_tiled, floating, fullscreen view.  Tiled is what
+# is used by default.  Pseudo-tiled presents the window in its original
+# dimensions inside the split it would normally occupy as a tile (I have
+# never found a practical use for this).  Floating windows have their
+# own dimensions and can be stacked on top of each other.
+#
+# NOTE the presence of the tilde ~.  If current state matches the given
+# state, then the argument is interpreted as the last state.
+# toggle tiled, psuedo_tiled_floating_fullscreen
+super + {t,shift + space,space,f}
+ 	bspc node -t ~{tiled,pseudo_tiled,floating,fullscreen}
+
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{j,k,l,semicolon}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the next/previous node in the current desktop
+super + {_,shift + }Tab
+	bspc node -f {next,prev}.local
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+#  With super move to the last
+# active desktop.  With alt move to the last active node. "grave" is
+# positioned above Tab in QWERTY layouts.
+# switch to last active {desktop,node}. 
+{super,alt} + grave
+	bspc {desktop,node} -f last
+
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {j,k,l,semicolon}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+#super + alt + {j,k,l,semicolon}
+#	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+#super + alt + shift + {j,k,l,semicolon}
+#	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# resize focused window
+super + + alt + {j,k,l,semicolon}
+    ~/scripts/bin/bspwm_resize {left,down,up,right}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Manipulate the workspace
+
+# Rotate all windows {counter-}clockwise by 90 degrees.
+super + {_,shift + }r
+	bspc node @/ --rotate {90,-90}
+
+# Flip desktop: what is on the right/top moves to the left/bottom and
+# vice versa.
+# flip desktop
+super + alt + {_,shift + }r
+	bspc node @/ --rotate {180,-180}
+
+# Switch between gap presets.
+super + shift + {y,u,i,o}
+	bspc config window_gap {0,5,10,20}
+
+# adjust gaps dynamically
+super + shift + bracket{left,right}
+	bspc config -d focused window_gap "$(($(bspc config -d focused window_gap) {-,+} 5 ))"
+
+# Continuous input modes
+# press esc to exit
+
+# resize mode (press esc to exit)
+super + c : {j,k,l,semicolon}
+	~/scripts/bin/bspwm_resize {left,down,up,right}
+
+# gap preset mode (press esc to exit)
+super + c : {y,u,i,o}
+	bspc config window_gap {0,5,10,20}
+
+# gaps dynamic mode (press esc to exit)
+super + c : bracket{left,right}
+	bspc config -d focused window_gap "$(($(bspc config -d focused window_gap) {-,+} 5 ))"
+
+# Move floating windows with the arrow keys
+super + c : {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# brightness
+XF86MonBrightness{Up,Down}
+	xbacklight {+,-}5%

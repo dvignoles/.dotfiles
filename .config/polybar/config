@@ -122,6 +122,7 @@ label = %date% - %time%
 
 [module/pulseaudio]
 type = internal/pulseaudio
+sink = bluez_sink.E4_22_A5_16_79_41.a2dp_sink ; defaults to default sink if not available
 ;format-volume = <label-volume> <bar-volume>
 format-volume = <ramp-volume>  <label-volume> 
 label-volume = %percentage%%
