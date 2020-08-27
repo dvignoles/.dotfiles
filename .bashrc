@@ -14,7 +14,11 @@ if [ -f ~/.aliases ]; then
 fi
 
 # wal colorscheme
-(cat ~/.cache/wal/sequences &)
+if [[ -d "~/.cache/wal" ]]
+then
+    echo "if dir statement in .bashrc works. Remove this statement"
+    (cat ~/.cache/wal/sequences &)
+fi
 
 #Path
 export XDG_USER_CONFIG_DIR=~/.config
