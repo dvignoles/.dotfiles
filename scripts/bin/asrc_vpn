@@ -2,14 +2,19 @@
 
 source $HOME/.pulse_credentials
 status=$(asrc_status)
-
+echo $status
 if [[ "$1" == "-k" || "$1" == "-K" ]]; then
-	pulsesvc -K
-	echo "vpn down"
-elif [[ "$status" == *"on"* ]]; then
+    if hash pulsesvc 2>/dev/null ; then
+        pulsesvc -K
+    else
+        /usr/local/pulse/PulseClient_x86_64.sh -K
+    fi
+elif [[ "$status" == *" on"* ]]; then
 	echo "vpn already on"
-elif [[ "$status" == *"off"* ]]; then
-	pulsesvc -h $pulse_host -u $pulse_user -p $pulse_password -realm "$pulse_realm" -Url $pulse_url & 
-else	
-    echo "unexpected output of asrc_status"
+elif [[ "$status" == *" off"* ]]; then
+    if hash pulsesvc 2>/dev/null ; then
+    	pulsesvc -h $pulse_host -u $pulse_user -p $pulse_password -realm "$pulse_realm" -Url $pulse_url & 
+    else
+    	/usr/local/pulse/PulseClient_x86_64.sh -h $pulse_host -u $pulse_user -p $pulse_password -realm "$pulse_realm" -Url $pulse_url & 
+    fi
 fi
