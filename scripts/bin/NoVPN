@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Start/Stop the NonVPN (sshuttle) which uses the ssh tunnel
+NoVPN() {
+    if [ "$1a" == "a" ] ; then
+       echo "Usage: NoVPN <start | stop> [remote_host | default: <tian.asrc>]"
+       return 1
+    fi
+    local pidfile=$HOME/.sshuttle/sshuttle.pid
+    local remotehost=tian.asrc
+    local option=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    if [ "$2a" != "a" ] ; then
+       remotehost=$2
+    fi
+    if [ "$option" == "start" ] ; then
+       if [ ! -e $pidfile ]; then
+           sshuttle -e 'ssh -C' --dns -D -x 172.0.0.0/8 -x 192.168.50.0/24 --no-latency-control --pidfile=$pidfile  -NHr $remotehost
+       fi
+    fi
+    if [ "$option" == "stop" ] ; then
+       if [ -e $pidfile ]; then
+          kill -15 $(cat $pidfile)
+       fi
+    fi
+}
+
+NoVPN "$@"
