@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/dan/.oh-my-zsh"
+export ZSH="/Users/ecr/danielv/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -74,8 +74,6 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# wal colorscheme
-(cat ~/.cache/wal/sequences &)
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -83,7 +81,6 @@ source $ZSH/oh-my-zsh.sh
 export XDG_USER_CONFIG_DIR=~/.config
 export BROWSER='google-chrome-stable'
 export PATH=$PATH:~/scripts/bin
-RANGER_LOAD_DEFAULT_RC=FALSE
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -93,6 +90,8 @@ if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
 else
    export EDITOR='vim'
+    # wal colorscheme
+    (cat ~/.cache/wal/sequences &)
 fi
 
 # Compilation flags
@@ -108,5 +107,30 @@ if [ -f ~/.aliases ]; then
 	. ~/.aliases
 fi
 
+# Remote Machine Specific settings
+homedir=~
+if [[ $homedir == "/Users/ecr/danielv" ]]; then
+    export PATH="/usr/local/share/ghaas/bin:$PATH"
+    
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/ecr/danielv/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/ecr/danielv/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/ecr/danielv/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/ecr/danielv/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+alias jupyter_server="jupyter notebook --ip=0.0.0.0 --allow-root --no-browser --notebook-dir='/Users/ecr/danielv'"
+fi
 # remove user@hostname when logged in as self on local machine
 prompt_context(){}
+
+export RGISarchive2="/asrc/ecr/balazs/GHAAS/RGISarchive2"
+export RGISarchive3="/asrc/ecr/balazs/GHAAS/RGISarchive3"
+export GPKGarchive="/asrc/ecr/balazs/GHAAS/GPKGarchive"

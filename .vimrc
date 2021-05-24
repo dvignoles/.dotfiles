@@ -9,7 +9,7 @@ set shiftwidth=4
 " use appropriate number of spaces to insert tab
 set expandtab
 " automatic indentation
-set smartindent
+" set smartindent
 " line numbers
 set nu
 " Disable line wrapping
