@@ -1,4 +1,7 @@
 # .dotfiles
+**DEPRECATED** in favor of [chezmoi](https://github.com/twpayne/chezmoi)
+
+See [dvginoles/mes-dossiers](https://github.com/dvignoles/mes-dossiers)
 
 An attempt to track & organize my critical dotfiles. 
 
