@@ -75,6 +75,18 @@ XF86AudioMute
 XF86AudioMicMute 
     pactl set-source-mute 1 toggle
 
+# media player controls 
+XF86AudioNext
+    playerctl next
+
+XF86AudioPrev
+    playerctl previous
+
+XF86AudioStop
+    playerctl stop
+
+XF86AudioPlay
+    playerctl play-pause
 
 #TODO
 # Pulse Audio controls
