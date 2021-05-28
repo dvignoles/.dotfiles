@@ -1,5 +1,5 @@
 
-## general
+## Window Manager agnostic Keybinds
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -7,7 +7,7 @@ super + Escape
 
 # terminal emulator
 super + Return
-    termite
+    xterm
 
 # lockscreen
 super + alt + ctrl + l
@@ -16,32 +16,38 @@ super + alt + ctrl + l
 ## rofi
 
 # show sxhkd bspwm keybinds
-super + semicolon 
-    /home/dan/scripts/bin/sxhkd_rofi_popup
+#super + semicolon 
+#    /home/dan/scripts/bin/sxhkd_rofi_popup
 
 # launch .desktop program
+#super + d
+#	rofi -modi drun -show drun
+
 super + d
-	rofi -modi drun -show drun
+    i3-dmenu-desktop
 
 # launch any program
+#super + shift + d
+#	rofi -modi run  -show run
+
 super + shift + d
-	rofi -modi run  -show run
+    dmenu_run
 
 # power menu
-super + p
-	rofi -show p -modi p:~/scripts/bin/rofi-power-menu -font "RobotMono Nerd Font 16" -width 20 -lines 6
+#super + p
+#	rofi -show p -modi p:~/scripts/bin/rofi-power-menu -font "RobotMono Nerd Font 16" -width 20 -lines 6
 
 # bluetooth (rofi-bluetooth aur)
-super + b
-	rofi-bluetooth
+#super + b
+#	rofi-bluetooth
 
 # greenclip clipboard manager
-super + v
-	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+#super + v
+#	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # programs
-super + {_,shift + }n
-	{rofi-wifi-menu &,nm-connection-editor &}
+#super + {_,shift + }n
+#	{rofi-wifi-menu &,nm-connection-editor &}
 
 ## broken keyboard binds / media controls
 
@@ -93,9 +99,6 @@ XF86AudioMicMute
 
 #6 squares
 #bindsym XF86Explorer exec nemo
-
-#mic mute (not working)
-#bindsym XF86AudioMicMute exec --no-startup-id amixer set Capture toggle
 
 # screenshot
 Print
