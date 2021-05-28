@@ -2,15 +2,15 @@
 ## Window Manager agnostic Keybinds
 
 # make sxhkd reload its configuration files:
-super + Escape
+mod4 + Escape
 	pkill -USR1 -x sxhkd
 
 # terminal emulator
-super + Return
+mod4 + Return
     xterm
 
 # lockscreen
-super + alt + ctrl + l
+mod4 + alt + ctrl + l
     betterlockscreen -l dim -t "All ye who enter abandon hope"
 
 ## rofi
@@ -23,14 +23,14 @@ super + alt + ctrl + l
 #super + d
 #	rofi -modi drun -show drun
 
-super + d
+mod4 + d
     i3-dmenu-desktop
 
 # launch any program
 #super + shift + d
 #	rofi -modi run  -show run
 
-super + shift + d
+mod4 + shift + d
     dmenu_run
 
 # power menu
@@ -119,10 +119,10 @@ Print
 # sleep is for letting giblib load when using --select -s
 # freeze screen is necessary due to compositor weirdness  when using scrot -s
 # screenshot select
-shift + Print
-	sleep 0.2; scrot -s --freeze -z '/home/dan/Pictures/screenshots/%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'xclip -selection clipboard -target image/png -i $f'
+ctrl + Print
+	sleep 0.2; scrot -s -z '/home/dan/Pictures/screenshots/%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'xclip -selection clipboard -target image/png -i $f'
 
 # screenshot focused window
-alt + Print
+mod1 + Print
 	scrot --focused -z '/home/dan/Pictures/screenshots/%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'xclip -selection clipboard -target image/png -i $f'
 
